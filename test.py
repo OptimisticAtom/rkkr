@@ -5,5 +5,8 @@ import time
 print(time.time())
 
 # convert time in seconds into a readable string of characters
-print(time.localtime(time.time()))
-# Hey can you put the code for when you want to time something
+print(time.ctime(time.time()))
+
+
+# the hour of the day
+print(time.localtime(time.time()).hour)
