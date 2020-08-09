@@ -1,30 +1,33 @@
-# import time
-import os
-# https://docs.python.org/3/library/time.html#time.time
+import getpass
 
-# current time in seconds since 1970
-# print(time.time())
+newUser = input('Are you a new user? ')
+newUser = newUser.casefold()
+print(newUser)
+isNewUser = False
+if newUser == 'yes':
+    isNewUser = True
 
-# convert time in seconds into a readable string of characters
-# print(time.ctime(time.time()))
+username = input('Username: ')
+password = getpass.getpass('Password: ')
+userNames = open('userNames', 'r+')
+usedUserNames = userNames.read().split('\n')
+for userName in usedUserNames:
+    if username == userName:
+        isNewUser = False
+        print('sorry this username is taken')
+if isNewUser:
+    credentials = open('credentials:' + username, 'w')
+    credentials.write(username + '\n' + password)
+    credentials.close()
+    userNames.write(username + '\n')
+    print('Hello ' + username)
+else:
+    try:
+        credentials = open('credentials:' + username, 'r')
+        userpass = credentials.read().split('\n')
+        if userpass[1] == password:
+            print('Hello ' + username)
+    except FileNotFoundError:
+        print("sorry that user doesn't exist")
 
-
-# the hour of the day
-# print(time.localtime(time.time()).hour)
-
-file = open('tehfile', 'a')
-if(not(os.path.exists('/home/kyle/Documents/Programming/Python/countFile'))):
-    countFileNew = open('count', 'w')
-    countFileNew.write('0')
-    countFileNew.close()
-
-
-countFile = open('count', 'w+')
-count = int(countFile.read())
-for i in range(count, count + 10):
-    file.write('meme: ' + str(i) + '  ')
-    newCount = i
-# hi
-countFile.write(str(newCount))
-countFile.close()
-file.close()
+print('Hi there')
